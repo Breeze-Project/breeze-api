@@ -36,12 +36,12 @@ public enum DatabaseVendor {
             throw new IllegalArgumentException(
                     "Database vendor must not be null or blank. Supported values: mysql, postgresql, sqlite");
         }
-        for (final DatabaseVendor vendor : values()) {
-            if (vendor.configKey.equalsIgnoreCase(value.trim())) {
-                return vendor;
-            }
-        }
-        throw new IllegalArgumentException(
-                "Unknown database vendor '" + value + "'. Supported values: mysql, postgresql, sqlite");
+        return switch (value.trim().toLowerCase()) {
+            case "mysql" -> MYSQL;
+            case "postgresql" -> POSTGRESQL;
+            case "sqlite" -> SQLITE;
+            default -> throw new IllegalArgumentException(
+                    "Unknown database vendor '" + value + "'. Supported values: mysql, postgresql, sqlite");
+        };
     }
 }

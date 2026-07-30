@@ -8,5 +8,8 @@ public record Permission(@NotNull String name) {
 
     public Permission {
         Objects.requireNonNull(name, "permission name must not be null");
+        if (name.isBlank()) {
+            throw new IllegalArgumentException("permission name must not be blank");
+        }
     }
 }

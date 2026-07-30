@@ -28,13 +28,7 @@ public record ApiVersion(int major, int minor, int patch) implements Comparable<
 
     public boolean isCompatibleWith(final @NotNull ApiVersion required) {
         Objects.requireNonNull(required, "required version must not be null");
-        if (major != required.major)
-            return false;
-        if (minor < required.minor)
-            return false;
-        if (minor > required.minor)
-            return true;
-        return patch >= required.patch;
+        return major == required.major && this.compareTo(required) >= 0;
     }
 
     @Override

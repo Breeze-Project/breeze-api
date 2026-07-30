@@ -51,17 +51,15 @@ public record DatabaseConfig(
     }
 
     public @NotNull Map<String, Object> toMap() {
-        return new java.util.LinkedHashMap<>() {
-            {
-                put("type", type);
-                put("host", host);
-                put("port", port);
-                put("name", name);
-                put("user", user);
-                put("password", password);
-                put("pool-size", poolSize);
-            }
-        };
+        final var map = java.util.LinkedHashMap.<String, Object>newLinkedHashMap(7);
+        map.put("type", type);
+        map.put("host", host);
+        map.put("port", port);
+        map.put("name", name);
+        map.put("user", user);
+        map.put("password", password);
+        map.put("pool-size", poolSize);
+        return map;
     }
 
     @Override
