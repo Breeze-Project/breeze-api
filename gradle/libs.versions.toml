@@ -1,0 +1,5 @@
+[versions]
+canvas-api = "1.21.11-R0.1-SNAPSHOT"
+
+[libraries]
+canvas-api = { group = "io.canvasmc.canvas", name = "canvas-api", version.ref = "canvas-api" }

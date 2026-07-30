@@ -9,7 +9,7 @@
     {
       devShells.${system}.default = pkgs.mkShell {
         buildInputs = with pkgs; [ temurin-bin-21 jdt-language-server gradle ];
-        JAVA_HOME = "${pkgs.temurin-bin-21}/lib/openjdk";
+        JAVA_HOME = "${pkgs.temurin-bin-21}";
       };
     };
 }
