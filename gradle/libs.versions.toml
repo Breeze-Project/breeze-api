@@ -1,5 +1,7 @@
 [versions]
 canvas-api = "1.21.11-R0.1-SNAPSHOT"
+annotations = "26.1.0"
 
 [libraries]
 canvas-api = { group = "io.canvasmc.canvas", name = "canvas-api", version.ref = "canvas-api" }
+annotations = { group = "org.jetbrains", name = "annotations", version.ref = "annotations" }

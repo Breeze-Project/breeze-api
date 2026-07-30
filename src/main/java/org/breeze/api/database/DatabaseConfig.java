@@ -1,0 +1,115 @@
+package org.breeze.api.database;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.Map;
+import java.util.Objects;
+
+public record DatabaseConfig(
+        @NotNull String type,
+        @Nullable String host,
+        int port,
+        @NotNull String name,
+        @Nullable String user,
+        @Nullable String password,
+        int poolSize) {
+
+    private static final int DEFAULT_POOL_SIZE = 10;
+    private static final String DEFAULT_HOST = "localhost";
+
+    public DatabaseConfig {
+        Objects.requireNonNull(type, "type must not be null");
+        Objects.requireNonNull(name, "name must not be null");
+        if (poolSize < 1) {
+            throw new IllegalArgumentException("poolSize must be at least 1, got " + poolSize);
+        }
+    }
+
+    public static @NotNull DatabaseConfig fromMap(final @NotNull Map<String, Object> map) {
+        Objects.requireNonNull(map, "map must not be null");
+
+        final String type = getRequired(map, "type");
+        final DatabaseVendor vendor = DatabaseVendor.fromConfigValue(type);
+
+        final String name = getRequired(map, "name");
+        final String host = getOptional(map, "host", DEFAULT_HOST);
+        final int port = getInt(map, "port", vendor.defaultPort());
+        final String user = getOptional(map, "user", null);
+        final String password = getOptional(map, "password", null);
+        final int poolSize = getInt(map, "pool-size",
+                getInt(map, "poolSize", DEFAULT_POOL_SIZE));
+
+        return new DatabaseConfig(
+                vendor.configKey(),
+                host,
+                port,
+                name,
+                user,
+                password,
+                poolSize);
+    }
+
+    public @NotNull Map<String, Object> toMap() {
+        return new java.util.LinkedHashMap<>() {
+            {
+                put("type", type);
+                put("host", host);
+                put("port", port);
+                put("name", name);
+                put("user", user);
+                put("password", password);
+                put("pool-size", poolSize);
+            }
+        };
+    }
+
+    @Override
+    public String toString() {
+        return "DatabaseConfig["
+                + "type=" + type
+                + ", host=" + host
+                + ", port=" + port
+                + ", name=" + name
+                + ", user=" + user
+                + ", poolSize=" + poolSize
+                + "]";
+    }
+
+    private static @NotNull String getRequired(final @NotNull Map<String, Object> map, final @NotNull String key) {
+        final Object value = map.get(key);
+        if (value == null || value.toString().isBlank()) {
+            throw new IllegalArgumentException(
+                    "Missing required configuration key '" + key + "'");
+        }
+        return value.toString().trim();
+    }
+
+    private static @Nullable String getOptional(final @NotNull Map<String, Object> map,
+            final @NotNull String key,
+            final @Nullable String fallback) {
+        final Object value = map.get(key);
+        if (value == null || value.toString().isBlank()) {
+            return fallback;
+        }
+        return value.toString().trim();
+    }
+
+    private static int getInt(final @NotNull Map<String, Object> map,
+            final @NotNull String key,
+            final int fallback) {
+        final Object value = map.get(key);
+        if (value == null) {
+            return fallback;
+        }
+        if (value instanceof Number number) {
+            return number.intValue();
+        }
+        try {
+            return Integer.parseInt(value.toString().trim());
+        } catch (final NumberFormatException e) {
+            throw new IllegalArgumentException(
+                    "Invalid integer value for '" + key + "': " + value, e);
+        }
+    }
+}
