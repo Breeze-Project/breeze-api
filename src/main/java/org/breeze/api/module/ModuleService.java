@@ -8,6 +8,8 @@ import java.util.concurrent.CompletableFuture;
 
 public interface ModuleService {
 
+    void registerModule(@NotNull BreezeModule module);
+
     @NotNull
     Optional<BreezeModule> getModule(@NotNull String id);
 
