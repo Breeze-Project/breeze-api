@@ -1,0 +1,9 @@
+name: Publish to Maven Local
+description: Публикует артефакты в локальный Maven репозиторий
+
+runs:
+  using: composite
+  steps:
+    - name: Publish to Maven Local
+      shell: bash
+      run: ./gradlew publishToMavenLocal

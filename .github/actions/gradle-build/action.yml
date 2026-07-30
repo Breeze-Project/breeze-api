@@ -1,0 +1,15 @@
+name: Gradle Build
+description: Собирает проект через Gradle
+
+inputs:
+  arguments:
+    description: Аргументы для Gradle
+    required: false
+    default: build
+
+runs:
+  using: composite
+  steps:
+    - name: Execute Gradle
+      shell: bash
+      run: ./gradlew ${{ inputs.arguments }}

@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup environment
+        uses: ./.github/actions/setup-java
+
+      - name: Build project
+        uses: ./.github/actions/gradle-build
+        with:
+          arguments: build
+
+      - name: Publish to local Maven
+        uses: ./.github/actions/publish-local
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-libs
+          path: build/libs

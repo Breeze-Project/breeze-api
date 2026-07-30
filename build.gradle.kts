@@ -1,5 +1,6 @@
 plugins {
     java
+    `maven-publish`
 }
 
 group = "org.breeze"
@@ -28,5 +29,20 @@ dependencies {
 tasks.withType<JavaCompile> {
     options.encoding = "UTF-8"
     options.release.set(21)
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("mavenJava") {
+            from(components["java"])
+            groupId = project.group.toString()
+            artifactId = project.name
+            version = project.version.toString()
+        }
+    }
+}
+
+tasks.named("publishToMavenLocal") {
+    dependsOn("build")
 }
 
