@@ -26,9 +26,25 @@ dependencies {
     compileOnly(libs.annotations)
 }
 
+val versionMajor = project.version.toString().substringBefore(".")
+val versionMinor = project.version.toString().substringAfter(".").substringBefore(".")
+val versionPatch = project.version.toString().substringAfterLast(".")
+
 tasks.withType<JavaCompile> {
     options.encoding = "UTF-8"
     options.release.set(21)
+}
+
+val generatedVersionDir = layout.buildDirectory.dir("generated/breeze-version").get().asFile
+generatedVersionDir.mkdirs()
+file("${generatedVersionDir}/breeze-version.properties").writeText(
+    "api.version=${project.version}\n" +
+    "api.version.major=${versionMajor}\n" +
+    "api.version.minor=${versionMinor}\n" +
+    "api.version.patch=${versionPatch}\n"
+)
+sourceSets.main.configure {
+    output.dir(generatedVersionDir)
 }
 
 publishing {
