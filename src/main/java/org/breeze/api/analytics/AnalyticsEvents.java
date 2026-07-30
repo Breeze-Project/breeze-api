@@ -2,92 +2,62 @@ package org.breeze.api.analytics;
 
 import org.jetbrains.annotations.NotNull;
 
-public final class AnalyticsEvents {
+public enum AnalyticsEvents {
 
-    public static final @NotNull AnalyticsEvent PLAYER_JOIN = new AnalyticsEvent("player_join");
+    PLAYER_JOIN("player_join"),
+    PLAYER_QUIT("player_quit"),
+    PLAYER_LOGIN("player_login"),
+    PLAYER_KICK("player_kick"),
+    PLAYER_DEATH("player_death"),
+    PLAYER_KILL("player_kill"),
+    MOB_KILL("mob_kill"),
+    PLAYER_CHAT("player_chat"),
+    PLAYER_COMMAND("player_command"),
+    PLAYER_WORLD_CHANGE("player_world_change"),
+    PLAYER_TELEPORT("player_teleport"),
+    PLAYER_RESPAWN("player_respawn"),
+    PLAYER_PORTAL("player_portal"),
+    PLAYER_GAMEMODE_CHANGE("player_gamemode_change"),
+    BLOCK_BREAK("block_break"),
+    BLOCK_PLACE("block_place"),
+    ITEM_DROP("item_drop"),
+    ITEM_PICKUP("item_pickup"),
+    ITEM_BREAK("item_break"),
+    PLAYER_DAMAGE("player_damage"),
+    PLAYER_ATTACK("player_attack"),
+    PLAYER_TOTEM("player_totem"),
+    PLAYER_INTERACT("player_interact"),
+    PLAYER_INTERACT_ENTITY("player_interact_entity"),
+    SIGN_EDIT("sign_edit"),
+    PLAYER_TRADE("player_trade"),
+    PLAYER_FISH("player_fish"),
+    PLAYER_SLEEP("player_sleep"),
+    PLAYER_BED_LEAVE("player_bed_leave"),
+    PLAYER_CRAFT("player_craft"),
+    PLAYER_SMITH("player_smith"),
+    PLAYER_CONSUME("player_consume"),
+    PLAYER_BUCKET_FILL("player_bucket_fill"),
+    PLAYER_BUCKET_EMPTY("player_bucket_empty"),
+    PLAYER_HARVEST("player_harvest"),
+    PLAYER_SHEAR("player_shear"),
+    ADVANCEMENT_DONE("advancement_done"),
+    RECIPE_DISCOVER("recipe_discover"),
+    PLAYER_LEVEL_UP("player_level_up"),
+    PLAYER_MOUNT("player_mount"),
+    PLAYER_DISMOUNT("player_dismount"),
+    PLAYER_TAME("player_tame");
 
-    public static final @NotNull AnalyticsEvent PLAYER_QUIT = new AnalyticsEvent("player_quit");
+    private final AnalyticsEvent event;
 
-    public static final @NotNull AnalyticsEvent PLAYER_LOGIN = new AnalyticsEvent("player_login");
+    AnalyticsEvents(final @NotNull String key) {
+        this.event = new AnalyticsEvent(key);
+    }
 
-    public static final @NotNull AnalyticsEvent PLAYER_KICK = new AnalyticsEvent("player_kick");
+    public @NotNull AnalyticsEvent event() {
+        return event;
+    }
 
-    public static final @NotNull AnalyticsEvent PLAYER_DEATH = new AnalyticsEvent("player_death");
-
-    public static final @NotNull AnalyticsEvent PLAYER_KILL = new AnalyticsEvent("player_kill");
-
-    public static final @NotNull AnalyticsEvent MOB_KILL = new AnalyticsEvent("mob_kill");
-
-    public static final @NotNull AnalyticsEvent PLAYER_CHAT = new AnalyticsEvent("player_chat");
-
-    public static final @NotNull AnalyticsEvent PLAYER_COMMAND = new AnalyticsEvent("player_command");
-
-    public static final @NotNull AnalyticsEvent PLAYER_WORLD_CHANGE = new AnalyticsEvent("player_world_change");
-
-    public static final @NotNull AnalyticsEvent PLAYER_TELEPORT = new AnalyticsEvent("player_teleport");
-
-    public static final @NotNull AnalyticsEvent PLAYER_RESPAWN = new AnalyticsEvent("player_respawn");
-
-    public static final @NotNull AnalyticsEvent PLAYER_PORTAL = new AnalyticsEvent("player_portal");
-
-    public static final @NotNull AnalyticsEvent PLAYER_GAMEMODE_CHANGE = new AnalyticsEvent("player_gamemode_change");
-
-    public static final @NotNull AnalyticsEvent BLOCK_BREAK = new AnalyticsEvent("block_break");
-
-    public static final @NotNull AnalyticsEvent BLOCK_PLACE = new AnalyticsEvent("block_place");
-
-    public static final @NotNull AnalyticsEvent ITEM_DROP = new AnalyticsEvent("item_drop");
-
-    public static final @NotNull AnalyticsEvent ITEM_PICKUP = new AnalyticsEvent("item_pickup");
-
-    public static final @NotNull AnalyticsEvent ITEM_BREAK = new AnalyticsEvent("item_break");
-
-    public static final @NotNull AnalyticsEvent PLAYER_DAMAGE = new AnalyticsEvent("player_damage");
-
-    public static final @NotNull AnalyticsEvent PLAYER_ATTACK = new AnalyticsEvent("player_attack");
-
-    public static final @NotNull AnalyticsEvent PLAYER_TOTEM = new AnalyticsEvent("player_totem");
-
-    public static final @NotNull AnalyticsEvent PLAYER_INTERACT = new AnalyticsEvent("player_interact");
-
-    public static final @NotNull AnalyticsEvent PLAYER_INTERACT_ENTITY = new AnalyticsEvent("player_interact_entity");
-
-    public static final @NotNull AnalyticsEvent SIGN_EDIT = new AnalyticsEvent("sign_edit");
-
-    public static final @NotNull AnalyticsEvent PLAYER_TRADE = new AnalyticsEvent("player_trade");
-
-    public static final @NotNull AnalyticsEvent PLAYER_FISH = new AnalyticsEvent("player_fish");
-
-    public static final @NotNull AnalyticsEvent PLAYER_SLEEP = new AnalyticsEvent("player_sleep");
-
-    public static final @NotNull AnalyticsEvent PLAYER_BED_LEAVE = new AnalyticsEvent("player_bed_leave");
-
-    public static final @NotNull AnalyticsEvent PLAYER_CRAFT = new AnalyticsEvent("player_craft");
-
-    public static final @NotNull AnalyticsEvent PLAYER_SMITH = new AnalyticsEvent("player_smith");
-
-    public static final @NotNull AnalyticsEvent PLAYER_CONSUME = new AnalyticsEvent("player_consume");
-
-    public static final @NotNull AnalyticsEvent PLAYER_BUCKET_FILL = new AnalyticsEvent("player_bucket_fill");
-
-    public static final @NotNull AnalyticsEvent PLAYER_BUCKET_EMPTY = new AnalyticsEvent("player_bucket_empty");
-
-    public static final @NotNull AnalyticsEvent PLAYER_HARVEST = new AnalyticsEvent("player_harvest");
-
-    public static final @NotNull AnalyticsEvent PLAYER_SHEAR = new AnalyticsEvent("player_shear");
-
-    public static final @NotNull AnalyticsEvent ADVANCEMENT_DONE = new AnalyticsEvent("advancement_done");
-
-    public static final @NotNull AnalyticsEvent RECIPE_DISCOVER = new AnalyticsEvent("recipe_discover");
-
-    public static final @NotNull AnalyticsEvent PLAYER_LEVEL_UP = new AnalyticsEvent("player_level_up");
-
-    public static final @NotNull AnalyticsEvent PLAYER_MOUNT = new AnalyticsEvent("player_mount");
-
-    public static final @NotNull AnalyticsEvent PLAYER_DISMOUNT = new AnalyticsEvent("player_dismount");
-
-    public static final @NotNull AnalyticsEvent PLAYER_TAME = new AnalyticsEvent("player_tame");
-
-    private AnalyticsEvents() {
+    public @NotNull String key() {
+        return event.key();
     }
 }
