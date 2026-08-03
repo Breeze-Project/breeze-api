@@ -32,4 +32,8 @@ public record ModuleDescriptor(
     public ModuleDescriptor(final String id, final String name, final ApiVersion version) {
         this(id, name, version, "", List.of(), List.of(), BreezeApiVersion.CURRENT);
     }
+
+    public ModuleDescriptor(final String id, final String name, final ApiVersion version, final String description) {
+        this(id, name, version, description, List.of(), List.of(), BreezeApiVersion.CURRENT);
+    }
 }
