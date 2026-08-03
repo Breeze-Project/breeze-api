@@ -1,10 +1,10 @@
 package org.breeze.api.database;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import java.util.Map;
 import java.util.Objects;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public record DatabaseConfig(
         @NotNull String type,
@@ -57,7 +57,7 @@ public record DatabaseConfig(
         map.put("port", port);
         map.put("name", name);
         map.put("user", user);
-        map.put("password", password);
+        map.put("password", password == null ? null : "******");
         map.put("pool-size", poolSize);
         return map;
     }
@@ -100,7 +100,7 @@ public record DatabaseConfig(
         if (value == null) {
             return fallback;
         }
-        if (value instanceof Number number) {
+        if (value instanceof final Number number) {
             return number.intValue();
         }
         try {
