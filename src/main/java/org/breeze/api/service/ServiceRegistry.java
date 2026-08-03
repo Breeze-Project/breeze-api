@@ -4,7 +4,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
-public interface ServiceRegistry {
+public interface ServiceRegistry extends AutoCloseable {
 
     <T> void register(@NotNull Class<T> serviceType, @NotNull T implementation);
 
@@ -19,4 +19,7 @@ public interface ServiceRegistry {
     }
 
     void unregister(@NotNull Class<?> serviceType);
+
+    @Override
+    void close();
 }
