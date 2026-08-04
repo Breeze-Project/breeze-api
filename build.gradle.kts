@@ -26,39 +26,43 @@ dependencies {
     compileOnly(libs.annotations)
 }
 
-val versionMajor = project.version.toString().substringBefore(".")
-val versionMinor = project.version.toString().substringAfter(".").substringBefore(".")
-val versionPatch = project.version.toString().substringAfterLast(".")
+val versionParts = project.version.toString().substringBefore("-").split(".")
+val versionMajor = versionParts.getOrElse(0) { "0" }
+val versionMinor = versionParts.getOrElse(1) { "0" }
+val versionPatch = versionParts.getOrElse(2) { "0" }
 
-tasks.withType<JavaCompile> {
-    options.encoding = "UTF-8"
-    options.release.set(21)
+val generateBreezeVersion by tasks.registering(WriteProperties::class) {
+    comment = null
+    destinationFile.set(layout.buildDirectory.file("generated/resources/breeze-version/breeze-version.properties"))
+
+    property("api.version", project.version.toString())
+    property("api.version.major", versionMajor)
+    property("api.version.minor", versionMinor)
+    property("api.version.patch", versionPatch)
 }
 
-val generatedVersionDir = layout.buildDirectory.dir("generated/breeze-version").get().asFile
-generatedVersionDir.mkdirs()
-file("${generatedVersionDir}/breeze-version.properties").writeText(
-    "api.version=${project.version}\n" +
-    "api.version.major=${versionMajor}\n" +
-    "api.version.minor=${versionMinor}\n" +
-    "api.version.patch=${versionPatch}\n"
-)
-sourceSets.main.configure {
-    output.dir(generatedVersionDir)
+sourceSets {
+    main {
+        resources {
+            srcDir(generateBreezeVersion.map { it.destinationFile.get().asFile.parentFile })
+        }
+    }
+}
+
+tasks {
+    withType<JavaCompile> {
+        options.encoding = "UTF-8"
+    }
+
+    named("publishToMavenLocal") {
+        dependsOn("check")
+    }
 }
 
 publishing {
     publications {
         create<MavenPublication>("mavenJava") {
             from(components["java"])
-            groupId = project.group.toString()
-            artifactId = project.name
-            version = project.version.toString()
         }
     }
 }
-
-tasks.named("publishToMavenLocal") {
-    dependsOn("build")
-}
-
